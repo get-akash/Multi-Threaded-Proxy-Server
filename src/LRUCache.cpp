@@ -10,7 +10,7 @@ LRUCache::~LRUCache(){
 }
 
 std::shared_ptr<cacheValue> LRUCache::get(const std::string& key){
-    std::shared_lock<std::shared_mutex> lock(rwLock);
+    std::unique_lock<std::mutex> lock(rwLock);
 
     if(cache.find(key) == cache.end()){
         return nullptr;
@@ -24,7 +24,7 @@ std::shared_ptr<cacheValue> LRUCache::get(const std::string& key){
 }
 
 void LRUCache::put(const std::string& key, const std::string& value){
-    std::unique_lock<std::shared_mutex> lock(rwLock);
+    std::unique_lock<std::mutex> lock(rwLock);
 
     auto newVal = std::make_shared<cacheValue>();
     newVal->data = std::make_shared<std::string>(value);
