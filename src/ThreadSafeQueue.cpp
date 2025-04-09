@@ -20,15 +20,14 @@ std::unique_ptr<T> ThreadSafeQueue<T>::pop(){
 
 template <typename T>
 std::unique_ptr<T> ThreadSafeQueue<T>::try_pop(){
-    std::lock_guard<std::mutex> lock(mtx);
-    
     if(queue.empty()){
         return nullptr;
-    }else{
-        std::unique_ptr<T> ref = std::move(queue.front());
-        queue.pop();
-        return ref;
     }
+    std::lock_guard<std::mutex> lock(mtx);
+    
+    std::unique_ptr<T> ref = std::move(queue.front());
+    queue.pop();
+    return ref;
 }
 
 template <typename T>
