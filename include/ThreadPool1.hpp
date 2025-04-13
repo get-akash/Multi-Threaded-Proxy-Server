@@ -1,9 +1,7 @@
-#pragma once
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <atomic>
-#include <future>
 #include "../include/ThreadSafeQueue.hpp"
 
 class JoinThreads {
@@ -31,8 +29,5 @@ public:
     ~ThreadPool();
 
     template <typename Function_type>
-    std::future<typename std::invoke_result<Function_type()>::type> submit(Function_type& f);
-    
-    template <typename T>
-    T wait_for_future(std::future<T>& future); // instead of using future.get() directly, use this method
+    void submit(Function_type& task);
 };
