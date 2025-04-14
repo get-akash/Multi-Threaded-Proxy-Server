@@ -7,8 +7,8 @@
 class ServerFactory
 {
 public:
-    static std::unique_ptr<HTTPServer> createHTTPServer(const std::string &serverType, const std::string &cacheType, int cacheSize = 100);
+    static std::unique_ptr<HTTPServer> createHTTPServer(const std::string& _cacheType, unsigned int _cacheSize, int port);
 
 private:
-    static std::unique_ptr<CacheStrategy> createCacheStrategy(const std::string &cacheType, int cacheSize);
+    static std::unique_ptr<CacheStrategy> createCacheStrategy(const std::string &cacheType, unsigned int cacheSize);
 };
