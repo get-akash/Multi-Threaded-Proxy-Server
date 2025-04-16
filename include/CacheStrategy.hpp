@@ -4,7 +4,7 @@
 struct cacheValue{
     std::shared_ptr<std::string>  data;
     // std::string *data;
-    int len;
+    std::string::size_type len;
 };  
 
 struct cacheKey{

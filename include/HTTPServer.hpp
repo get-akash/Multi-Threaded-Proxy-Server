@@ -2,12 +2,14 @@
 
 #include <string>
 #include <netinet/in.h>
+#include <unistd.h>
 #include "./CacheStrategy.hpp"
 #include "./ThreadPool.hpp"
 #include "./ServerUtils.hpp"
 #include "./ClientHandlerTask.hpp"
 
 class HTTPServer{
+friend class ServerUtils;
 protected:
     std::unique_ptr<CacheStrategy> cache;
 
@@ -15,6 +17,7 @@ private:
     int server_fd;
     int port;
     ThreadPool pool;
+    std::unique_ptr<ServerUtils> utils;
 
     void setupSocket();
     void acceptConnections();
@@ -22,5 +25,5 @@ private:
 public:
     HTTPServer(int port, std::unique_ptr<CacheStrategy> cache);
     void start();
-    void handleClient(int client_fd);
+    void handleClient(int client_fd); // the main logic
 };

@@ -38,7 +38,7 @@ void LFUCache::put(const std::string& key, const std::string& value){
     //create newValue
     auto newVal = std::make_shared<cacheValue>();
     newVal->data = std::make_shared<std::string>(value);
-    newVal->len = value.length();
+    newVal->len = value.size();
 
     if(cache.find(key) == cache.end()){
         //false
