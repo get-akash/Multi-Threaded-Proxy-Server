@@ -48,7 +48,7 @@ void LFUCache::put(const std::string& key, const std::string& value){
         //put the key in front of [1] list in freqList
         auto newKey = std::make_shared<cacheKey>();
         newKey->url = std::make_shared<std::string>(key);
-        freqList[1].push_front(newKey);
+        freqList[1].push_front(std::move(newKey));
         //update minFreq to 1
         minFreq = 1;
         //update the keyFreq

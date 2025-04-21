@@ -2,6 +2,7 @@
 #include<iostream>
 #include<mutex>
 #include<unordered_map>
+#include <memory>
 #include<list>
 #include "CacheStrategy.hpp"
 
@@ -21,6 +22,6 @@ public:
     LFUCache(int cacheCapacity);
     ~LFUCache() override; //overriding base class' destructor
 
-    std::shared_ptr<cacheValue> get(const std::string& key);
-    void put(const std::string& key, const std::string& value);
+    std::shared_ptr<cacheValue> get(const std::string& key) override;
+    void put(const std::string& key, const std::string& value) override;
 };

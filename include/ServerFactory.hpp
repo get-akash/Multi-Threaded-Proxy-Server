@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include "./HTTPServer.hpp"
 #include "./CacheStrategy.hpp"
 #include "./LRUCache.hpp"

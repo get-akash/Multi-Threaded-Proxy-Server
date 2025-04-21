@@ -1,4 +1,12 @@
 #include "../include/ServerUtils.hpp"
+#include "../include/HTTPServer.hpp"
+
+size_t write_callback(char* buffer, size_t size, size_t nmemb, std::string* response){
+    if (response == NULL) return 0;
+    size_t total = size * nmemb;
+    response->append(buffer, total);
+    return total;
+}
 
 ServerUtils::ServerUtils(HTTPServer* _server): server(_server){}
 
@@ -60,11 +68,11 @@ void ServerUtils::sendResponse(int client_fd, std::shared_ptr<cacheValue> body){
 
 std::shared_ptr<std::string> ServerUtils::fetchFromWeb(const std::string& url){
     CURL* curl = curl_easy_init();
-    std::shared_ptr<std::string> response;
+    std::shared_ptr<std::string> response = std::make_shared<std::string>();
     if(curl){
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, response.get());
         CURLcode res = curl_easy_perform(curl);
         if(res != CURLE_OK){
             std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
@@ -74,13 +82,7 @@ std::shared_ptr<std::string> ServerUtils::fetchFromWeb(const std::string& url){
         return response;
     }else{
         std::cerr << "curl_easy_init() failed" << std::endl;
+        curl_easy_cleanup(curl);
         return nullptr;
     }
-}
-
-size_t ServerUtils::write_callback(char* buffer, size_t size, size_t nmemb, std::string* response){
-    if (response == NULL) return 0;
-    size_t total = size * nmemb;
-    response->append(buffer, total);
-    return total;
 }

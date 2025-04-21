@@ -21,8 +21,33 @@ public:
     ThreadSafeQueue(ThreadSafeQueue&&) = default;
     ThreadSafeQueue& operator=(ThreadSafeQueue&&) = default;
 
-    void push(const T& value);
-    std::unique_ptr<T> pop();
-    std::unique_ptr<T> try_pop();
-    bool empty();
+    void push(const T& value){
+        std::lock_guard<std::mutex> lock(mtx);
+
+        queue.push(std::make_unique<T>(value));
+        cv.notify_one();
+    };
+    std::unique_ptr<T> pop(){
+         std::unique_lock<std::mutex> lock(mtx);
+
+        cv.wait(lock, [this]{return !queue.empty();});
+        std::unique_ptr<T> ref = std::move(queue.front());
+        queue.pop();
+        return ref;
+    };
+    std::unique_ptr<T> try_pop(){
+        if(queue.empty()){
+            return nullptr;
+        }
+        std::lock_guard<std::mutex> lock(mtx);
+        
+        std::unique_ptr<T> ref = std::move(queue.front());
+        queue.pop();
+        return ref;
+    };
+    bool empty(){
+        std::lock_guard<std::mutex> lock(mtx);
+    
+        return queue.empty();
+    };
 };

@@ -39,7 +39,7 @@ void LRUCache::put(const std::string& key, const std::string& value){
         //add to front on lruList
         auto newKey = std::make_unique<cacheKey>();
         newKey->url = std::make_shared<std::string>(key);
-        lruList.push_front(newKey);
+        lruList.push_front(std::move(newKey));
         //add the value on cache
         auto newPair = std::pair(newVal, lruList.begin());
         cache[key] = newPair;

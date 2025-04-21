@@ -1,5 +1,6 @@
 #pragma once
-#include "./HTTPServer.hpp"
+
+class HTTPServer;
 
 class ClientHandlerTask{
 private:
@@ -7,10 +8,7 @@ private:
     HTTPServer* server;
 
 public:
-    ClientHandlerTask(int _client_fd, HTTPServer* _server):
-        server(_server), client_fd(_client_fd) {};
+    ClientHandlerTask(int _client_fd, HTTPServer* _server);
 
-    void operator()(){
-        server->handleClient(client_fd);
-    };
+    void operator()();
 };

@@ -3,14 +3,16 @@
 #include <string>
 #include <regex>
 #include <sstream>
+#include <memory>
 #include <curl/curl.h>
-#include "./HTTPServer.hpp"
 #include "./CacheStrategy.hpp"
+
+class HTTPServer;
 
 class ServerUtils{
 private:
     HTTPServer* server;
-    size_t write_callback(char* buffer, size_t size, size_t nmemb, std::string* userdata); // nmemb: number of members
+    // size_t write_callback(char* buffer, size_t size, size_t nmemb, std::string* userdata); // nmemb: number of members
 
 public:
     ServerUtils(HTTPServer* _server);
