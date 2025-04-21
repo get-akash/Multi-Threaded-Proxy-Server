@@ -17,12 +17,18 @@ It efficiently handles concurrent client requests using a thread pool and perfor
 
 ## 🧱 Project Structure
 Multi-Threaded-Proxy-Server/
-├── benchmark/        # Benchmarking tools (in progress)
-├── include/          # Header files for core classes
-├── src/              # Source code for proxy logic and utilities
-├── main.cpp          # Main entry point of the application
-├── makefile          # Makefile to build the project (in progress)
-└── README.md         # Project documentation
+
+├── benchmark/        **# Benchmarking tools (in progress)**
+
+├── include/          **# Header files for core classes**
+
+├── src/              **# Source code for proxy logic and utilities**
+
+├── main.cpp          **# Main entry point of the application**
+
+├── makefile          **# Makefile to build the project**
+
+└── README.md         **# Project documentation**
 
 ---
 
@@ -42,3 +48,14 @@ Multi-Threaded-Proxy-Server/
 ```bash
 git clone https://github.com/get-akash/Multi-Threaded-Proxy-Server.git
 cd Multi-Threaded-Proxy-Server
+```
+
+### 2. Build the Project
+```bash
+make
+```
+
+### 2. Running the Server
+```bash
+./proxy_server <cacheType: LRU/LFU> <cacheSize> <port>
+```
